@@ -19,7 +19,7 @@ int main()
 	int deeperCount = 0;
 	// use a circular buffer to look through the sliding window at different points
 	int c = 0;
-	int windows[6];
+	int windows[3];
 	std::string line;
 
 	// populate the first 2 slots in the buffer
@@ -38,14 +38,14 @@ int main()
 		windows[c] = std::stoi(line);
 
 		// sum starting from 3 behind where the index is
-		thisDepth = windows[(c + 3) % 6];
-		thisDepth += windows[(c + 4) % 6];
-		thisDepth += windows[(c + 5) % 6];
+		thisDepth = windows[c % 3];
+		thisDepth += windows[(c + 1) % 3];
+		thisDepth += windows[(c + 2) % 3];
 
 		if (thisDepth > prevDepth)
 			deeperCount++;
 
-		++c %= 6; // keep buffer index within bounds
+		++c %= 3; // keep buffer index within bounds
 		prevDepth = thisDepth;
 	}
 	
