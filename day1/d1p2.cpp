@@ -37,7 +37,7 @@ int main()
 		// popuate the next slot in the buffer
 		windows[c] = std::stoi(line);
 
-		// sum starting from 3 behind where the index is
+		// sum starting from 2 behind where the index is
 		thisDepth = windows[c % 3];
 		thisDepth += windows[(c + 1) % 3];
 		thisDepth += windows[(c + 2) % 3];
