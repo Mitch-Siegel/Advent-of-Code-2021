@@ -1,3 +1,11 @@
+/*
+ * Mitch Siegel
+ * Advent of Code 2021
+ * Day 1: Part 2
+ * https://adventofcode.com/2021/day/1
+ *
+ */
+
 #include <iostream>
 #include <fstream>
 
@@ -23,7 +31,7 @@ int main()
 
 	// since it is now ensured that we will always have a 3-wide window
 	// (where the most recently updated index in the buffer is the last index in the window)
-	// we can look at all input until EOF, with the start of the window trailing the index by 3
+	// we can look at all input until EOF, with the start of the window trailing the index by 2
 	for (line; std::getline(inFile, line);)
 	{
 		// popuate the next slot in the buffer
