@@ -37,8 +37,9 @@ int main()
 	// loop for days
 	for (int day = 1; day <= 256; day++)
 	{
+		// keep track of the number of fish whose cycles just ended
+		// this value will be overwritten by updating the other counters
 		long int reproducingFish = fishList[0];
-		fishList[0] = 0;
 		// reduce the time remaining on all fish in the list
 		for (int i = 1; i < 9; i++)
 			fishList[i - 1] = fishList[i];
@@ -46,16 +47,13 @@ int main()
 		// fish with 0 days remaining reproduce a fish with an 8 day timer
 		// SET this value since fish with a 9 day timer don't get overwritten
 		fishList[8] = reproducingFish;
-		
-		// and their timer itself resets to 6
-		// ADD to this value since fish with a 6 day timer were fish who just had a 7 day timer
-		// and we need to ADD the fish whose cycles just restarted
+
+		// and the reproducing fish's timer resets to 6
+		// ADD to this value since fish with a 6 day timer were fish who previously had a 7 day timer
+		// and we don't want to destroy that value in the process
 		fishList[6] += reproducingFish;
 
-		// swap the lists around
-		//fishList = newFishList;
-
-		// get the total number of fish
+		// calculate the total number of fish
 		long int totalFish = 0;
 		for (long int i : fishList)
 			totalFish += i;
