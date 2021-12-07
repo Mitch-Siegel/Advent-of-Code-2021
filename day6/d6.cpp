@@ -1,7 +1,7 @@
 /*
  * Mitch Siegel
  * Advent of Code 2021
- * Day 6: Part 1
+ * Day 6: Parts 1 and 2
  * https://adventofcode.com/2021/day/6
  *
  */

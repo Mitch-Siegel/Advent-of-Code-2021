@@ -1,8 +1,8 @@
 /*
  * Mitch Siegel
  * Advent of Code 2021
- * Day 4: Part 1
- * https://adventofcode.com/2021/day/3
+ * Day 4: Part 2
+ * https://adventofcode.com/2021/day/4
  *
  */
 
