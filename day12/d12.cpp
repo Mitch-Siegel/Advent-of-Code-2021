@@ -40,11 +40,11 @@ public:
 };
 
 // given a vector of cave pointers, return the cave with a given name if found
-Cave *getCaveByName(std::vector<Cave *> cavesList, std::string name)
+Cave *getCaveByName(std::vector<Cave *> *cavesList, std::string name)
 {
-	for (Cave *c : cavesList)
-		if (!(*c).name.compare(name))
-			return c;
+	for (int i = 0; i < cavesList->size(); i++)
+		if (!cavesList->at(i)->name.compare(name))
+			return cavesList->at(i);
 	
 	return nullptr;
 }
@@ -54,14 +54,14 @@ Cave *getCaveByName(std::vector<Cave *> cavesList, std::string name)
 // then add each cave to the other's connections list
 void addConnection(std::vector<Cave *> *cavesList, std::string cave1, std::string cave2)
 {
-	if (getCaveByName(*cavesList, cave1) == nullptr)
-		(*cavesList).push_back(new Cave(cave1));
+	if (getCaveByName(cavesList, cave1) == nullptr)
+		cavesList->push_back(new Cave(cave1));
 
-	if (getCaveByName(*cavesList, cave2) == nullptr)
-		(*cavesList).push_back(new Cave(cave2));
+	if (getCaveByName(cavesList, cave2) == nullptr)
+		cavesList->push_back(new Cave(cave2));
 
-	getCaveByName(*cavesList, cave1)->connect(getCaveByName(*cavesList, cave2));
-	getCaveByName(*cavesList, cave2)->connect(getCaveByName(*cavesList, cave1));
+	getCaveByName(cavesList, cave1)->connect(getCaveByName(cavesList, cave2));
+	getCaveByName(cavesList, cave2)->connect(getCaveByName(cavesList, cave1));
 }
 
 int countPaths(std::vector<Cave *> currentPath, Cave *here, int revisitSmalls)
@@ -74,6 +74,7 @@ int countPaths(std::vector<Cave *> currentPath, Cave *here, int revisitSmalls)
 
 	int pathsCount = 0;
 
+	// look at all caves adjacent to where we are currently
 	for (int ci = 0; ci < here->connections.size(); ci++)
 	{
 		Cave *neighbor = here->connections[ci];
@@ -85,6 +86,7 @@ int countPaths(std::vector<Cave *> currentPath, Cave *here, int revisitSmalls)
 				pathsCount += countPaths(currentPath, neighbor, revisitSmalls);
 			else
 			{
+				// looking at only small caves
 				// set a flag and look through where we've already been
 				int allowVisit = 1;
 				for (int i = 0; i < currentPath.size(); i++)
@@ -102,13 +104,12 @@ int countPaths(std::vector<Cave *> currentPath, Cave *here, int revisitSmalls)
 						}
 					}
 				}
-				// if we intend to visit a small cave and we haven't seen it, visit it
+				// if looking at a small cave and we haven't seen it, visit it
 				if (allowVisit)
 					pathsCount += countPaths(currentPath, neighbor, revisitSmalls);
 			}
 		}
 	}
-
 	return pathsCount;
 }
 
@@ -119,7 +120,7 @@ int main()
 	inFile.open("./input", std::ifstream::in);
 
 	std::vector<Cave *> caves;
-	// read in the starting grid of octopi, parse as ints
+	// read in the caves, add them and their connections to the list
 	for (std::string line; std::getline(inFile, line);)
 	{
 		size_t pos = line.find("-");
@@ -127,8 +128,8 @@ int main()
 	}
 
 	// calculate the number of paths with and without the small cave revisit rule
-	int part1Paths = countPaths({}, getCaveByName(caves, "start"), 0);
-	int part2Paths = countPaths({}, getCaveByName(caves, "start"), 1);
+	int part1Paths = countPaths({}, getCaveByName(&caves, "start"), 0);
+	int part2Paths = countPaths({}, getCaveByName(&caves, "start"), 1);
 
 	std::cout << "Part 1 - don't revisit small caves: " << part1Paths << " paths" << std::endl;
 	std::cout << "Part 2 - revisit one small cave twice: " << part2Paths << " paths" << std::endl;
