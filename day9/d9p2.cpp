@@ -45,9 +45,9 @@ int pointListContains(std::vector<Point> *list, Point p)
 int findBasinSize(Point startPoint, std::vector<Point> *seenList, std::vector<std::vector<int>> *map)
 {
 	// spin for a bit for the animation
-	for (int i = 0; i < 0x1fffff; i++)
+	/*for (int i = 0; i < 0x1fffff; i++)
 	{
-	}
+	}*/
 	int totalSize = 0;
 	// we have seen the point we are looking at
 	(*seenList).push_back(startPoint);
